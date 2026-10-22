@@ -1,0 +1,612 @@
+/**
+ * @name auck-efaris Pastel Turquoise
+ * @author Custom styling; Catppuccin base by winston#0001 and contributors
+ * @version 1.0.0
+ * @description Milky turquoise, vanilla light and cool mineral shadows.
+ */
+
+/* Base theme and original attribution: https://github.com/catppuccin/discord */
+@import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
+
+/*
+ * auck-efaris Pastel Turquoise / 木漏れ日
+ * Edit these palette values to personalize the whole theme.
+ * Wood grain is drawn with CSS; no wallpaper or font downloads are needed.
+ */
+:root {
+    --komorebi-wood-deep: #1a1e24;
+    --komorebi-wood: #242930;
+    --komorebi-wood-raised: #323941;
+    --komorebi-hinoki: #afc3cc;
+    --komorebi-plum: #2b2b33;
+    --komorebi-panel: #30353f;
+    --komorebi-panel-raised: #3d434d;
+    --komorebi-lilac: #efdbb7;
+    --komorebi-lilac-bright: #f6ead5;
+    --komorebi-sakura: #c6d8dc;
+    --komorebi-gold: #aee2dc;
+    --komorebi-gold-bright: #d2efec;
+    --komorebi-gold-deep: #9ac4c3;
+    --komorebi-cream: #eef4f8;
+    --komorebi-text: #dfe6ec;
+    --komorebi-muted: #b8c0cb;
+    --komorebi-ink: #242930;
+    --komorebi-sage: #afd1aa;
+    --komorebi-rose: #f2a6b2;
+    --komorebi-gold-line: rgba(174, 226, 220, 0.24);
+    --komorebi-hover: rgba(239, 219, 183, 0.10);
+    --komorebi-selected: rgba(239, 219, 183, 0.18);
+    --komorebi-shadow:
+        inset 0 1px 0 rgba(238, 244, 248, 0.07),
+        0 2px 6px rgba(16, 18, 22, 0.22),
+        0 14px 32px rgba(16, 18, 22, 0.30);
+    --komorebi-shadow-hover:
+        inset 0 1px 0 rgba(238, 244, 248, 0.12),
+        0 4px 10px rgba(16, 18, 22, 0.24),
+        0 12px 26px rgba(16, 18, 22, 0.28);
+    --komorebi-ambient-duration: 22s;
+    --komorebi-radius: 12px;
+    --komorebi-wood-grain:
+        repeating-linear-gradient(
+            92deg,
+            transparent 0 14px,
+            rgba(175, 195, 204, 0.025) 15px,
+            transparent 17px 37px
+        );
+}
+
+/*
+ * Current and legacy Discord tokens, including nested menus and dialogs.
+ * Repeated theme classes match the base theme's specificity. Important tokens
+ * override its important declarations. Light profiles keep their own palette;
+ * their contrasting foreground colors are set in the scoped rule below.
+ */
+:root:root,
+.theme-dark.theme-dark,
+.theme-darker.theme-darker,
+.theme-midnight.theme-midnight,
+.theme-light.theme-light:not(:where(
+    .custom-user-profile-theme,
+    .user-profile-popout,
+    .user-profile-modal,
+    .user-profile-sidebar
+)) {
+    color-scheme: dark;
+
+    --font-primary: "gg sans", "Noto Sans Thai", "Leelawadee UI", "Noto Sans JP", sans-serif;
+    --font-display: var(--font-primary);
+
+    --app-frame-background: var(--komorebi-wood-deep) !important;
+    --background-primary: var(--komorebi-plum) !important;
+    --background-secondary: var(--komorebi-wood) !important;
+    --background-secondary-alt: var(--komorebi-wood-deep) !important;
+    --background-tertiary: var(--komorebi-wood-deep) !important;
+    --background-floating: var(--komorebi-panel) !important;
+    --background-accent: var(--komorebi-panel-raised) !important;
+    --background-surface-high: var(--komorebi-plum) !important;
+    --background-surface-higher: var(--komorebi-panel) !important;
+    --background-surface-highest: var(--komorebi-panel-raised) !important;
+    --background-base-lowest: var(--komorebi-wood-deep) !important;
+    --background-base-lower: var(--komorebi-wood) !important;
+    --background-base-low: var(--komorebi-plum) !important;
+    --background-gradient-highest: var(--komorebi-panel) !important;
+    --bg-base-primary: var(--komorebi-plum) !important;
+    --bg-base-secondary: var(--komorebi-wood) !important;
+    --bg-base-tertiary: var(--komorebi-wood-deep) !important;
+    --bg-surface-raised: var(--komorebi-panel) !important;
+    --home-background: var(--komorebi-plum) !important;
+    --chat-background: var(--komorebi-plum) !important;
+    --chat-background-default: var(--komorebi-plum) !important;
+    --chat-border: var(--komorebi-gold-line) !important;
+    --__header-bar-background: var(--komorebi-panel) !important;
+    --custom-channel-members-bg: var(--komorebi-panel) !important;
+    --card-background-default: var(--komorebi-panel-raised) !important;
+    --modal-background: var(--komorebi-plum) !important;
+    --modal-footer-background: var(--komorebi-panel) !important;
+    --custom-status-bubble-background: var(--komorebi-wood) !important;
+    --custom-status-bubble-background-color: var(--komorebi-panel) !important;
+
+    --text-default: var(--komorebi-text) !important;
+    --text-normal: var(--komorebi-text) !important;
+    --text-strong: var(--komorebi-cream) !important;
+    --header-primary: var(--komorebi-cream) !important;
+    --header-secondary: var(--komorebi-muted) !important;
+    --text-muted: var(--komorebi-muted) !important;
+    --text-subtle: var(--komorebi-muted) !important;
+    --chat-text-muted: var(--komorebi-muted) !important;
+    --text-link: var(--komorebi-lilac-bright) !important;
+    --text-link-low-saturation: var(--komorebi-lilac-bright) !important;
+    --text-brand: var(--komorebi-gold) !important;
+    --channels-default: var(--komorebi-muted) !important;
+    --channel-icon: var(--komorebi-hinoki) !important;
+    --icon-default: var(--komorebi-text) !important;
+    --icon-strong: var(--komorebi-cream) !important;
+    --icon-subtle: var(--komorebi-muted) !important;
+    --icon-muted: var(--komorebi-muted) !important;
+    --interactive-normal: var(--komorebi-muted) !important;
+    --interactive-hover: var(--komorebi-cream) !important;
+    --interactive-active: var(--komorebi-gold-bright) !important;
+    --interactive-muted: #959ca6 !important;
+    --interactive-icon-default: var(--komorebi-muted) !important;
+    --interactive-icon-hover: var(--komorebi-gold-bright) !important;
+    --interactive-icon-active: var(--komorebi-gold) !important;
+    --interactive-text-default: var(--komorebi-text) !important;
+    --interactive-text-hover: var(--komorebi-cream) !important;
+    --interactive-text-active: var(--komorebi-gold-bright) !important;
+
+    --background-modifier-hover: var(--komorebi-hover) !important;
+    --background-modifier-active: var(--komorebi-selected) !important;
+    --background-modifier-selected: var(--komorebi-selected) !important;
+    --background-modifier-accent: var(--komorebi-gold-line) !important;
+    --background-mod-muted: rgba(239, 219, 183, 0.04) !important;
+    --background-mod-normal: rgba(239, 219, 183, 0.09) !important;
+    --background-mod-subtle: var(--komorebi-hover) !important;
+    --background-mod-strong: var(--komorebi-selected) !important;
+    --interactive-background-hover: var(--komorebi-hover) !important;
+    --interactive-background-selected: var(--komorebi-selected) !important;
+    --interactive-background-active: var(--komorebi-selected) !important;
+    --border-subtle: rgba(174, 226, 220, 0.12) !important;
+    --border-muted: rgba(174, 226, 220, 0.16) !important;
+    --border-normal: var(--komorebi-gold-line) !important;
+    --border-strong: rgba(174, 226, 220, 0.38) !important;
+
+    /* Palette accents: keep dark ink on filled accent controls. */
+    --brand-100: #f7fcfc !important;
+    --brand-130: #f1faf9 !important;
+    --brand-160: #ecf8f7 !important;
+    --brand-200: #e5f6f4 !important;
+    --brand-230: #dff3f1 !important;
+    --brand-260: #d7f1ee !important;
+    --brand-300: #d0eeeb !important;
+    --brand-330: #c8ebe7 !important;
+    --brand-360: #c1e9e4 !important;
+    --brand-400: #bae6e1 !important;
+    --brand-430: #b5e5df !important;
+    --brand-460: #b1e3dd !important;
+    --brand-500: var(--komorebi-gold) !important;
+    --brand-530: #a5d6d1 !important;
+    --brand-560: #99c7c2 !important;
+    --brand-600: #9ac4c3 !important;
+    --brand-630: #7fa3a1 !important;
+    --brand-660: #739492 !important;
+    --brand-700: #678484 !important;
+    --brand-730: #5b7475 !important;
+    --brand-760: #4f6566 !important;
+    --brand-800: #435558 !important;
+    --brand-830: #384549 !important;
+    --brand-860: #2d373c !important;
+    --brand-900: #242c31 !important;
+    --brand-05a: rgba(174, 226, 220, 0.05) !important;
+    --brand-10a: rgba(174, 226, 220, 0.10) !important;
+    --brand-15a: rgba(174, 226, 220, 0.15) !important;
+    --brand-20a: rgba(174, 226, 220, 0.20) !important;
+    --brand-25a: rgba(174, 226, 220, 0.25) !important;
+    --brand-30a: rgba(174, 226, 220, 0.30) !important;
+    --brand-35a: rgba(174, 226, 220, 0.35) !important;
+    --brand-40a: rgba(174, 226, 220, 0.40) !important;
+    --brand-45a: rgba(174, 226, 220, 0.45) !important;
+    --brand-50a: rgba(174, 226, 220, 0.50) !important;
+    --brand-55a: rgba(174, 226, 220, 0.55) !important;
+    --brand-60a: rgba(174, 226, 220, 0.60) !important;
+    --brand-65a: rgba(174, 226, 220, 0.65) !important;
+    --brand-70a: rgba(174, 226, 220, 0.70) !important;
+    --brand-75a: rgba(174, 226, 220, 0.75) !important;
+    --brand-80a: rgba(174, 226, 220, 0.80) !important;
+    --brand-85a: rgba(174, 226, 220, 0.85) !important;
+    --brand-90a: rgba(174, 226, 220, 0.90) !important;
+    --brand-95a: rgba(174, 226, 220, 0.95) !important;
+    --brand-experiment: var(--komorebi-gold) !important;
+    --brand-experiment-560: var(--komorebi-gold-deep) !important;
+    --blurple-50: var(--komorebi-gold) !important;
+    --blurple-60: var(--komorebi-gold-deep) !important;
+    --opacity-blurple-8: rgba(174, 226, 220, 0.08) !important;
+    --opacity-blurple-16: rgba(174, 226, 220, 0.16) !important;
+    --opacity-blurple-24: rgba(174, 226, 220, 0.24) !important;
+    --opacity-blurple-32: rgba(174, 226, 220, 0.32) !important;
+    --opacity-blurple-60: rgba(174, 226, 220, 0.60) !important;
+
+    --control-brand-foreground: var(--komorebi-gold) !important;
+    --control-brand-foreground-new: var(--komorebi-gold) !important;
+    --control-primary-background-default: var(--komorebi-gold) !important;
+    --control-primary-background-hover: var(--komorebi-gold-bright) !important;
+    --control-primary-background-active: #a2d2cd !important;
+    --control-primary-text-default: var(--komorebi-ink) !important;
+    --control-primary-text-hover: var(--komorebi-ink) !important;
+    --control-primary-text-active: var(--komorebi-ink) !important;
+    --control-secondary-background-default: var(--komorebi-panel-raised) !important;
+    --control-secondary-background-hover: #4f5258 !important;
+    --control-secondary-background-active: #5b5d5f !important;
+    --control-secondary-border-default: var(--komorebi-gold-line) !important;
+    --control-secondary-text-default: var(--komorebi-cream) !important;
+    --control-secondary-text-hover: var(--komorebi-cream) !important;
+    --button-outline-brand-text: var(--komorebi-gold) !important;
+    --button-outline-brand-border: var(--komorebi-gold-line) !important;
+    --button-outline-brand-background-hover: var(--komorebi-gold) !important;
+    --button-outline-brand-border-hover: var(--komorebi-gold) !important;
+    --button-outline-brand-border-active: var(--komorebi-gold-deep) !important;
+    --button-outline-brand-text-hover: var(--komorebi-ink) !important;
+    --button-outline-brand-text-active: var(--komorebi-ink) !important;
+
+    --channeltextarea-background: var(--komorebi-wood) !important;
+    --channel-text-area-placeholder: var(--komorebi-muted) !important;
+    --input-background: var(--komorebi-wood-deep) !important;
+    --input-background-default: var(--komorebi-wood-deep) !important;
+    --input-text-default: var(--komorebi-cream) !important;
+    --input-placeholder-text-default: var(--komorebi-muted) !important;
+    --input-border-default: var(--komorebi-gold-line) !important;
+    --textbox-markdown-syntax: var(--komorebi-muted) !important;
+    --focus-primary: var(--komorebi-lilac) !important;
+    --__adaptive-focus-ring-color: var(--komorebi-lilac) !important;
+    --checkbox-icon-active: var(--komorebi-ink) !important;
+    --radio-thumb-background-active: var(--komorebi-ink) !important;
+
+    --mention-foreground: var(--komorebi-lilac-bright) !important;
+    --mention-background: rgba(239, 219, 183, 0.17) !important;
+    --background-mentioned: rgba(174, 226, 220, 0.08) !important;
+    --background-mentioned-hover: rgba(174, 226, 220, 0.13) !important;
+    --message-mentioned-background-default: rgba(174, 226, 220, 0.08) !important;
+    --message-mentioned-background-hover: rgba(174, 226, 220, 0.13) !important;
+    --message-background-hover: rgba(239, 219, 183, 0.045) !important;
+    --message-highlight-background-default: rgba(239, 219, 183, 0.09) !important;
+    --message-highlight-background-hover: rgba(239, 219, 183, 0.13) !important;
+    --message-reacted-background-default: rgba(239, 219, 183, 0.16) !important;
+    --message-reacted-text-default: var(--komorebi-gold-bright) !important;
+    --background-code: var(--komorebi-wood-deep) !important;
+    --spoiler-hidden-background: #6f6e6b !important;
+    --spoiler-revealed-background: var(--komorebi-panel-raised) !important;
+
+    --text-positive: var(--komorebi-sage) !important;
+    --text-warning: var(--komorebi-gold) !important;
+    --text-danger: var(--komorebi-rose) !important;
+    --text-feedback-positive: var(--komorebi-sage) !important;
+    --text-feedback-warning: var(--komorebi-gold) !important;
+    --text-feedback-critical: var(--komorebi-rose) !important;
+    --text-feedback-info: var(--komorebi-lilac) !important;
+    --icon-feedback-positive: var(--komorebi-sage) !important;
+    --icon-feedback-warning: var(--komorebi-gold) !important;
+    --icon-feedback-critical: var(--komorebi-rose) !important;
+    --icon-feedback-info: var(--komorebi-lilac) !important;
+    --background-feedback-positive: rgba(175, 209, 170, 0.13) !important;
+    --background-feedback-warning: rgba(174, 226, 220, 0.13) !important;
+    --background-feedback-critical: rgba(242, 166, 178, 0.13) !important;
+    --background-feedback-info: rgba(239, 219, 183, 0.13) !important;
+    --background-feedback-notification: var(--komorebi-sakura) !important;
+    --badge-notification-background: var(--komorebi-sakura) !important;
+
+    --scrollbar-thin-thumb: #6e8e8d !important;
+    --scrollbar-thin-track: transparent !important;
+    --scrollbar-auto-thumb: #6e8e8d !important;
+    --scrollbar-auto-track: var(--komorebi-wood-deep) !important;
+    --scrollbar-auto-scrollbar-color-thumb: #6e8e8d !important;
+    --scrollbar-auto-scrollbar-color-track: var(--komorebi-wood-deep) !important;
+
+    /* Keep channel/thread labels in the theme's quiet palette. */
+    --ctp-rainbow-thread-disabled: ;
+}
+
+/*
+ * Discord marks light custom profiles with .theme-light. Let those profiles
+ * keep their native light surfaces and controls, and restore dark foregrounds
+ * after the imported theme. Alpha text follows the profile's gradient color.
+ * This covers popouts, full profiles and profile sidebars, including bot cards.
+ */
+#app-mount :is(
+    .custom-user-profile-theme,
+    .user-profile-popout,
+    .user-profile-modal,
+    .user-profile-sidebar
+).theme-light {
+    color-scheme: light;
+    --text-default: rgba(0, 0, 0, 0.96) !important;
+    --text-normal: #363737 !important;
+    --text-strong: #1a1e24 !important;
+    --text-muted: rgba(0, 0, 0, 0.76) !important;
+    --text-subtle: rgba(0, 0, 0, 0.88) !important;
+    --header-primary: #1a1e24 !important;
+    --header-secondary: rgba(0, 0, 0, 0.76) !important;
+    --text-link: #4f4d49 !important;
+    --text-link-low-saturation: #4f4d49 !important;
+    --text-brand: #3f4f52 !important;
+    --interactive-normal: #494844 !important;
+    --interactive-hover: #1a1e24 !important;
+    --interactive-active: #4f4d49 !important;
+    --interactive-muted: rgba(0, 0, 0, 0.56) !important;
+    --interactive-text-default: #363737 !important;
+    --interactive-text-hover: #1a1e24 !important;
+    --interactive-text-active: #4f4d49 !important;
+    --interactive-icon-default: #494844 !important;
+    --interactive-icon-hover: #1a1e24 !important;
+    --interactive-icon-active: #4f4d49 !important;
+    --icon-default: #494844 !important;
+    --icon-strong: #1a1e24 !important;
+    --icon-subtle: rgba(0, 0, 0, 0.76) !important;
+    --icon-muted: rgba(0, 0, 0, 0.76) !important;
+    --control-secondary-background-default: #fcf9f2 !important;
+    --control-secondary-background-hover: #faf4e9 !important;
+    --control-secondary-background-active: #f9f1e2 !important;
+    --control-secondary-border-default: #cdbd9f !important;
+    --control-secondary-text-default: #363737 !important;
+    --control-secondary-text-hover: #363737 !important;
+    --control-secondary-text-active: #363737 !important;
+    --button-secondary-background: #fcf9f2 !important;
+    --button-secondary-background-hover: #faf4e9 !important;
+    --button-secondary-background-active: #f9f1e2 !important;
+    --button-secondary-text: #363737 !important;
+    --input-text-default: #363737 !important;
+    --input-placeholder-text-default: #5a5750 !important;
+    --user-profile-overlay-background: rgba(255, 255, 255, 0.24) !important;
+    --user-profile-overlay-background-hover: rgba(255, 255, 255, 0.36) !important;
+}
+
+/* Tinted frame, with faint grain confined to navigation surfaces. */
+#app-mount [class*="guilds_"] {
+    background:
+        linear-gradient(180deg, rgba(175, 195, 204, 0.07), transparent 35%),
+        var(--komorebi-wood-grain),
+        var(--komorebi-wood-deep);
+    border-inline-end: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.22);
+}
+
+#app-mount :is([class*="sidebarList_"], [class*="privateChannels_"]) {
+    background:
+        linear-gradient(90deg, transparent 86%, rgba(16, 18, 22, 0.18)),
+        linear-gradient(165deg, rgba(175, 195, 204, 0.14), transparent 55%),
+        var(--komorebi-wood-grain),
+        var(--komorebi-wood);
+    border-inline-end: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset 1px 0 0 rgba(238, 244, 248, 0.035);
+}
+
+#app-mount [class*="sidebarList_"] [class*="header_"] {
+    border-bottom: 1px solid var(--komorebi-gold-line);
+    background: linear-gradient(180deg, rgba(174, 226, 220, 0.055), transparent);
+    box-shadow: inset 0 1px 0 rgba(238, 244, 248, 0.04), 0 4px 12px rgba(16, 18, 22, 0.13);
+}
+
+#app-mount [class*="panels_"] {
+    background:
+        linear-gradient(160deg, rgba(174, 226, 220, 0.07), transparent 55%),
+        linear-gradient(125deg, var(--komorebi-wood-raised), var(--komorebi-panel));
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 16px;
+    box-shadow: var(--komorebi-shadow);
+}
+
+/* Ambient light sits behind content in its own stacking context. */
+#app-mount [class*="chatContent_"] {
+    position: relative;
+    isolation: isolate;
+    background:
+        linear-gradient(180deg, rgba(239, 219, 183, 0.025), transparent 55%),
+        var(--komorebi-plum);
+}
+
+#app-mount [class*="chatContent_"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 92% 8%, rgba(239, 219, 183, 0.12), transparent 58%),
+        radial-gradient(ellipse at 8% 92%, rgba(174, 226, 220, 0.07), transparent 50%);
+    opacity: 0.65;
+}
+
+#app-mount [class*="membersWrap_"] {
+    background:
+        linear-gradient(155deg, rgba(239, 219, 183, 0.045), transparent 55%),
+        var(--komorebi-panel);
+    border-inline-start: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset 1px 0 0 rgba(238, 244, 248, 0.035);
+}
+
+#app-mount [class*="membersWrap_"] [class*="members_"] {
+    background: transparent;
+}
+
+#app-mount :is([class*="member_"], [class*="interactive_"], [class*="link_"]) {
+    border-radius: var(--komorebi-radius);
+    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+/* Beveled selection, with an accent seam and a softly lit upper edge. */
+#app-mount :is(
+    [class*="modeSelected_"] [class*="link_"],
+    [class*="interactive_"][class*="selected_"]
+) {
+    background:
+        linear-gradient(180deg, rgba(238, 244, 248, 0.035), transparent 65%),
+        linear-gradient(100deg, rgba(174, 226, 220, 0.16), rgba(239, 219, 183, 0.19));
+    box-shadow:
+        inset 2px 0 0 var(--komorebi-gold),
+        inset 0 1px 0 rgba(210, 239, 236, 0.12),
+        inset 0 -1px 0 rgba(16, 18, 22, 0.18),
+        0 4px 12px rgba(16, 18, 22, 0.18);
+    --channels-default: var(--komorebi-gold-bright) !important;
+    --channel-icon: var(--komorebi-gold) !important;
+    --interactive-text-default: var(--komorebi-gold-bright) !important;
+}
+
+/* Rounded lacquer-like composer; the border also signals keyboard focus. */
+#app-mount [class*="channelTextArea_"] {
+    background:
+        linear-gradient(110deg, rgba(175, 195, 204, 0.08), transparent 50%),
+        linear-gradient(180deg, #313640, #242930);
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 18px;
+    box-shadow: var(--komorebi-shadow);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+#app-mount [class*="channelTextArea_"] [class*="scrollableContainer_"] {
+    background: transparent;
+    border-radius: 17px;
+}
+
+#app-mount [class*="channelTextArea_"]:focus-within {
+    border-color: var(--komorebi-gold);
+    box-shadow:
+        inset 0 1px 0 rgba(210, 239, 236, 0.10),
+        0 0 0 2px rgba(239, 219, 183, 0.12),
+        0 0 24px rgba(174, 226, 220, 0.06),
+        0 12px 28px rgba(16, 18, 22, 0.28);
+}
+
+/* Override filled accent buttons that the base theme colors directly. */
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+) {
+    color: var(--komorebi-ink) !important;
+    background: linear-gradient(115deg, #e3f5f3, var(--komorebi-gold-bright) 24%, var(--komorebi-gold) 62%, #c1e9e4) !important;
+    border-radius: var(--komorebi-radius);
+    box-shadow: inset 0 1px 0 rgba(242, 250, 249, 0.45), inset 0 -2px 0 rgba(78, 99, 100, 0.22), 0 4px 12px rgba(16, 18, 22, 0.24);
+    transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+):hover:not(:disabled):not([aria-disabled="true"]) {
+    background: linear-gradient(135deg, #e0f4f2, var(--komorebi-gold-bright)) !important;
+    box-shadow: inset 0 1px 0 rgba(242, 250, 249, 0.55), inset 0 -2px 0 rgba(78, 99, 100, 0.18), 0 7px 22px rgba(174, 226, 220, 0.18);
+}
+
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+):active:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--komorebi-gold) !important;
+    box-shadow: inset 0 2px 4px rgba(36, 41, 48, 0.15);
+}
+
+#app-mount :is(button, a, input, [role="button"], [role="tab"], [role="menuitem"]):focus-visible {
+    outline: 2px solid var(--komorebi-lilac);
+    outline-offset: 2px;
+}
+
+/* Soft secondary details, with the primary accent reserved for emphasis. */
+#app-mount .mention {
+    border-radius: 6px;
+}
+
+#app-mount [class*="mentioned_"]::before {
+    background-color: var(--komorebi-gold);
+}
+
+#app-mount :is([class*="reaction_"], [class*="reactionMe_"]) {
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(238, 244, 248, 0.055), 0 2px 5px rgba(16, 18, 22, 0.12);
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+#app-mount [class*="reactionMe_"] {
+    background: rgba(239, 219, 183, 0.16);
+    border-color: rgba(174, 226, 220, 0.5);
+}
+
+#app-mount [class*="reactionMe_"] [class*="reactionCount_"] {
+    color: var(--komorebi-gold-bright);
+}
+
+#app-mount [class*="blockquoteDivider_"] {
+    background-color: var(--komorebi-gold-deep);
+    border-radius: 4px;
+}
+
+#app-mount [class*="markup_"] pre {
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: var(--komorebi-radius);
+}
+
+#app-mount [class*="menu_"] {
+    background:
+        linear-gradient(145deg, rgba(239, 219, 183, 0.075), transparent 60%),
+        var(--komorebi-panel);
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 14px;
+    box-shadow: var(--komorebi-shadow);
+}
+
+/* Hover depth stays within small controls; message text never moves. */
+@media (hover: hover) and (pointer: fine) {
+    #app-mount :is(
+        [class*="sidebarList_"] [class*="link_"],
+        [class*="privateChannels_"] [class*="interactive_"],
+        [class*="member_"]
+    ):hover {
+        background-color: var(--komorebi-hover);
+        box-shadow: inset 0 1px 0 rgba(238, 244, 248, 0.075), 0 4px 12px rgba(16, 18, 22, 0.18);
+    }
+
+    #app-mount [class*="modeSelected_"] [class*="link_"]:hover {
+        box-shadow: inset 2px 0 0 var(--komorebi-gold-bright), var(--komorebi-shadow-hover);
+    }
+
+    #app-mount :is([class*="reaction_"], [class*="reactionMe_"]):hover {
+        border-color: var(--komorebi-gold);
+        box-shadow: inset 0 1px 0 rgba(238, 244, 248, 0.10), 0 4px 12px rgba(16, 18, 22, 0.24);
+    }
+}
+
+/* Only opacity animates on the ambient layer: no blur or layout animation. */
+@keyframes komorebi-ambient {
+    from { opacity: 0.35; }
+    to { opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #app-mount [class*="chatContent_"]::before {
+        animation: komorebi-ambient var(--komorebi-ambient-duration) ease-in-out infinite alternate;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    #app-mount :is(
+        [class*="sidebarList_"] [class*="link_"],
+        [class*="privateChannels_"] [class*="interactive_"],
+        [class*="member_"]
+    ):hover {
+        transform: translateX(2px);
+    }
+
+    #app-mount :is([class*="reaction_"], [class*="reactionMe_"]):hover,
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ):hover:not(:disabled):not([aria-disabled="true"]) {
+        transform: translateY(-2px);
+    }
+
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ):active:not(:disabled):not([aria-disabled="true"]) {
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #app-mount [class*="channelTextArea_"],
+    #app-mount :is(
+        [class*="member_"],
+        [class*="interactive_"],
+        [class*="link_"],
+        [class*="reaction_"],
+        [class*="reactionMe_"]
+    ),
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ) {
+        transition: none;
+    }
+}

@@ -1,0 +1,869 @@
+/**
+ * @name auck-efaris Mint Atelier UI Demo
+ * @author Custom styling; Catppuccin base by winston#0001 and contributors
+ * @version 1.0.0
+ * @description A horizontal server dock, spacious chat and mint-lavender workspace cards.
+ */
+
+/* Base theme and original attribution: https://github.com/catppuccin/discord */
+@import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
+
+
+/*
+ * MINT ATELIER / UI DEMO
+ * Enable this theme on its own. The original Catppuccin base is included above.
+ * Wide desktop: top server dock + channel card + chat workspace + member card.
+ * Under 1000px: keep Discord's native vertical rail and shrink side panels.
+ * Sizing below uses CSS pixels. Increase channel/member width for longer labels.
+ * Server navigation remains the existing scrollable tree; no HTML/JS is injected.
+ * Selector topology checked against DiscordStyles/HorizontalServerList (2026-10-22):
+ * https://github.com/DiscordStyles/HorizontalServerList
+ * This is an independent layout; no additional remote CSS is imported.
+ * Validated in the accompanying local preview; live Discord is not yet verified.
+ */
+:root {
+    --atelier-gap: 12px;
+    --atelier-card-radius: 20px;
+    --atelier-dock-height: 72px;
+    --atelier-channel-width: 248px;
+    --atelier-member-width: 228px;
+    --atelier-header-height: 60px;
+    --atelier-message-width: 84ch;
+    --atelier-border: rgba(185, 228, 212, 0.18);
+    --atelier-card-shadow: 0 8px 28px rgba(7, 14, 19, 0.18);
+}
+
+/*
+ * auck-efaris Mint Atelier UI Demo / 木漏れ日
+ * Edit these palette values to personalize the whole theme.
+ * Wood grain is drawn with CSS; no wallpaper or font downloads are needed.
+ */
+:root {
+    --komorebi-wood-deep: #141b20;
+    --komorebi-wood: #1b252b;
+    --komorebi-wood-raised: #27343b;
+    --komorebi-hinoki: #9fbec5;
+    --komorebi-plum: #202831;
+    --komorebi-panel: #28333d;
+    --komorebi-panel-raised: #35414d;
+    --komorebi-lilac: #c9c4ee;
+    --komorebi-lilac-bright: #e8e0ff;
+    --komorebi-sakura: #e6bed6;
+    --komorebi-gold: #b9e4d4;
+    --komorebi-gold-bright: #dcf6eb;
+    --komorebi-gold-deep: #8dbbaa;
+    --komorebi-cream: #f2f8f7;
+    --komorebi-text: #dee9eb;
+    --komorebi-muted: #b7c7ca;
+    --komorebi-ink: #1b252b;
+    --komorebi-sage: #afd1aa;
+    --komorebi-rose: #f2a6b2;
+    --komorebi-gold-line: rgba(185, 228, 212, 0.24);
+    --komorebi-hover: rgba(201, 196, 238, 0.10);
+    --komorebi-selected: rgba(201, 196, 238, 0.18);
+    --komorebi-shadow:
+        inset 0 1px 0 rgba(242, 248, 247, 0.07),
+        0 2px 6px rgba(12, 16, 19, 0.22),
+        0 14px 32px rgba(12, 16, 19, 0.30);
+    --komorebi-shadow-hover:
+        inset 0 1px 0 rgba(242, 248, 247, 0.12),
+        0 4px 10px rgba(12, 16, 19, 0.24),
+        0 12px 26px rgba(12, 16, 19, 0.28);
+    --komorebi-ambient-duration: 22s;
+    --komorebi-radius: 12px;
+    --komorebi-wood-grain:
+        repeating-linear-gradient(
+            92deg,
+            transparent 0 14px,
+            rgba(159, 190, 197, 0.025) 15px,
+            transparent 17px 37px
+        );
+}
+
+/*
+ * Current and legacy Discord tokens, including nested menus and dialogs.
+ * Repeated theme classes match the base theme's specificity. Important tokens
+ * override its important declarations. Light profiles keep their own palette;
+ * their contrasting foreground colors are set in the scoped rule below.
+ */
+:root:root,
+.theme-dark.theme-dark,
+.theme-darker.theme-darker,
+.theme-midnight.theme-midnight,
+.theme-light.theme-light:not(:where(
+    .custom-user-profile-theme,
+    .user-profile-popout,
+    .user-profile-modal,
+    .user-profile-sidebar
+)) {
+    color-scheme: dark;
+
+    --font-primary: "gg sans", "Noto Sans Thai", "Leelawadee UI", "Noto Sans JP", sans-serif;
+    --font-display: var(--font-primary);
+
+    --app-frame-background: var(--komorebi-wood-deep) !important;
+    --background-primary: var(--komorebi-plum) !important;
+    --background-secondary: var(--komorebi-wood) !important;
+    --background-secondary-alt: var(--komorebi-wood-deep) !important;
+    --background-tertiary: var(--komorebi-wood-deep) !important;
+    --background-floating: var(--komorebi-panel) !important;
+    --background-accent: var(--komorebi-panel-raised) !important;
+    --background-surface-high: var(--komorebi-plum) !important;
+    --background-surface-higher: var(--komorebi-panel) !important;
+    --background-surface-highest: var(--komorebi-panel-raised) !important;
+    --background-base-lowest: var(--komorebi-wood-deep) !important;
+    --background-base-lower: var(--komorebi-wood) !important;
+    --background-base-low: var(--komorebi-plum) !important;
+    --background-gradient-highest: var(--komorebi-panel) !important;
+    --bg-base-primary: var(--komorebi-plum) !important;
+    --bg-base-secondary: var(--komorebi-wood) !important;
+    --bg-base-tertiary: var(--komorebi-wood-deep) !important;
+    --bg-surface-raised: var(--komorebi-panel) !important;
+    --home-background: var(--komorebi-plum) !important;
+    --chat-background: var(--komorebi-plum) !important;
+    --chat-background-default: var(--komorebi-plum) !important;
+    --chat-border: var(--komorebi-gold-line) !important;
+    --__header-bar-background: var(--komorebi-panel) !important;
+    --custom-channel-members-bg: var(--komorebi-panel) !important;
+    --card-background-default: var(--komorebi-panel-raised) !important;
+    --modal-background: var(--komorebi-plum) !important;
+    --modal-footer-background: var(--komorebi-panel) !important;
+    --custom-status-bubble-background: var(--komorebi-wood) !important;
+    --custom-status-bubble-background-color: var(--komorebi-panel) !important;
+
+    --text-default: var(--komorebi-text) !important;
+    --text-normal: var(--komorebi-text) !important;
+    --text-strong: var(--komorebi-cream) !important;
+    --header-primary: var(--komorebi-cream) !important;
+    --header-secondary: var(--komorebi-muted) !important;
+    --text-muted: var(--komorebi-muted) !important;
+    --text-subtle: var(--komorebi-muted) !important;
+    --chat-text-muted: var(--komorebi-muted) !important;
+    --text-link: var(--komorebi-lilac-bright) !important;
+    --text-link-low-saturation: var(--komorebi-lilac-bright) !important;
+    --text-brand: var(--komorebi-gold) !important;
+    --channels-default: var(--komorebi-muted) !important;
+    --channel-icon: var(--komorebi-hinoki) !important;
+    --icon-default: var(--komorebi-text) !important;
+    --icon-strong: var(--komorebi-cream) !important;
+    --icon-subtle: var(--komorebi-muted) !important;
+    --icon-muted: var(--komorebi-muted) !important;
+    --interactive-normal: var(--komorebi-muted) !important;
+    --interactive-hover: var(--komorebi-cream) !important;
+    --interactive-active: var(--komorebi-gold-bright) !important;
+    --interactive-muted: #93a1a5 !important;
+    --interactive-icon-default: var(--komorebi-muted) !important;
+    --interactive-icon-hover: var(--komorebi-gold-bright) !important;
+    --interactive-icon-active: var(--komorebi-gold) !important;
+    --interactive-text-default: var(--komorebi-text) !important;
+    --interactive-text-hover: var(--komorebi-cream) !important;
+    --interactive-text-active: var(--komorebi-gold-bright) !important;
+
+    --background-modifier-hover: var(--komorebi-hover) !important;
+    --background-modifier-active: var(--komorebi-selected) !important;
+    --background-modifier-selected: var(--komorebi-selected) !important;
+    --background-modifier-accent: var(--komorebi-gold-line) !important;
+    --background-mod-muted: rgba(201, 196, 238, 0.04) !important;
+    --background-mod-normal: rgba(201, 196, 238, 0.09) !important;
+    --background-mod-subtle: var(--komorebi-hover) !important;
+    --background-mod-strong: var(--komorebi-selected) !important;
+    --interactive-background-hover: var(--komorebi-hover) !important;
+    --interactive-background-selected: var(--komorebi-selected) !important;
+    --interactive-background-active: var(--komorebi-selected) !important;
+    --border-subtle: rgba(185, 228, 212, 0.12) !important;
+    --border-muted: rgba(185, 228, 212, 0.16) !important;
+    --border-normal: var(--komorebi-gold-line) !important;
+    --border-strong: rgba(185, 228, 212, 0.38) !important;
+
+    /* Palette accents: keep dark ink on filled accent controls. */
+    --brand-100: #f8fcfb !important;
+    --brand-130: #f3faf8 !important;
+    --brand-160: #eef9f5 !important;
+    --brand-200: #e9f6f1 !important;
+    --brand-230: #e3f4ee !important;
+    --brand-260: #ddf2ea !important;
+    --brand-300: #d6efe6 !important;
+    --brand-330: #cfede2 !important;
+    --brand-360: #c9eade !important;
+    --brand-400: #c4e8da !important;
+    --brand-430: #bfe6d8 !important;
+    --brand-460: #bce5d6 !important;
+    --brand-500: var(--komorebi-gold) !important;
+    --brand-530: #afd8c9 !important;
+    --brand-560: #a2c8bb !important;
+    --brand-600: #8dbbaa !important;
+    --brand-630: #84a49a !important;
+    --brand-660: #77948c !important;
+    --brand-700: #6a847e !important;
+    --brand-730: #5d736f !important;
+    --brand-760: #4f6361 !important;
+    --brand-800: #425352 !important;
+    --brand-830: #354344 !important;
+    --brand-860: #293537 !important;
+    --brand-900: #20292d !important;
+    --brand-05a: rgba(185, 228, 212, 0.05) !important;
+    --brand-10a: rgba(185, 228, 212, 0.10) !important;
+    --brand-15a: rgba(185, 228, 212, 0.15) !important;
+    --brand-20a: rgba(185, 228, 212, 0.20) !important;
+    --brand-25a: rgba(185, 228, 212, 0.25) !important;
+    --brand-30a: rgba(185, 228, 212, 0.30) !important;
+    --brand-35a: rgba(185, 228, 212, 0.35) !important;
+    --brand-40a: rgba(185, 228, 212, 0.40) !important;
+    --brand-45a: rgba(185, 228, 212, 0.45) !important;
+    --brand-50a: rgba(185, 228, 212, 0.50) !important;
+    --brand-55a: rgba(185, 228, 212, 0.55) !important;
+    --brand-60a: rgba(185, 228, 212, 0.60) !important;
+    --brand-65a: rgba(185, 228, 212, 0.65) !important;
+    --brand-70a: rgba(185, 228, 212, 0.70) !important;
+    --brand-75a: rgba(185, 228, 212, 0.75) !important;
+    --brand-80a: rgba(185, 228, 212, 0.80) !important;
+    --brand-85a: rgba(185, 228, 212, 0.85) !important;
+    --brand-90a: rgba(185, 228, 212, 0.90) !important;
+    --brand-95a: rgba(185, 228, 212, 0.95) !important;
+    --brand-experiment: var(--komorebi-gold) !important;
+    --brand-experiment-560: var(--komorebi-gold-deep) !important;
+    --blurple-50: var(--komorebi-gold) !important;
+    --blurple-60: var(--komorebi-gold-deep) !important;
+    --opacity-blurple-8: rgba(185, 228, 212, 0.08) !important;
+    --opacity-blurple-16: rgba(185, 228, 212, 0.16) !important;
+    --opacity-blurple-24: rgba(185, 228, 212, 0.24) !important;
+    --opacity-blurple-32: rgba(185, 228, 212, 0.32) !important;
+    --opacity-blurple-60: rgba(185, 228, 212, 0.60) !important;
+
+    --control-brand-foreground: var(--komorebi-gold) !important;
+    --control-brand-foreground-new: var(--komorebi-gold) !important;
+    --control-primary-background-default: var(--komorebi-gold) !important;
+    --control-primary-background-hover: var(--komorebi-gold-bright) !important;
+    --control-primary-background-active: #acd4c6 !important;
+    --control-primary-text-default: var(--komorebi-ink) !important;
+    --control-primary-text-hover: var(--komorebi-ink) !important;
+    --control-primary-text-active: var(--komorebi-ink) !important;
+    --control-secondary-background-default: var(--komorebi-panel-raised) !important;
+    --control-secondary-background-hover: #444e5d !important;
+    --control-secondary-background-active: #4e5768 !important;
+    --control-secondary-border-default: var(--komorebi-gold-line) !important;
+    --control-secondary-text-default: var(--komorebi-cream) !important;
+    --control-secondary-text-hover: var(--komorebi-cream) !important;
+    --button-outline-brand-text: var(--komorebi-gold) !important;
+    --button-outline-brand-border: var(--komorebi-gold-line) !important;
+    --button-outline-brand-background-hover: var(--komorebi-gold) !important;
+    --button-outline-brand-border-hover: var(--komorebi-gold) !important;
+    --button-outline-brand-border-active: var(--komorebi-gold-deep) !important;
+    --button-outline-brand-text-hover: var(--komorebi-ink) !important;
+    --button-outline-brand-text-active: var(--komorebi-ink) !important;
+
+    --channeltextarea-background: var(--komorebi-wood) !important;
+    --channel-text-area-placeholder: var(--komorebi-muted) !important;
+    --input-background: var(--komorebi-wood-deep) !important;
+    --input-background-default: var(--komorebi-wood-deep) !important;
+    --input-text-default: var(--komorebi-cream) !important;
+    --input-placeholder-text-default: var(--komorebi-muted) !important;
+    --input-border-default: var(--komorebi-gold-line) !important;
+    --textbox-markdown-syntax: var(--komorebi-muted) !important;
+    --focus-primary: var(--komorebi-lilac) !important;
+    --__adaptive-focus-ring-color: var(--komorebi-lilac) !important;
+    --checkbox-icon-active: var(--komorebi-ink) !important;
+    --radio-thumb-background-active: var(--komorebi-ink) !important;
+
+    --mention-foreground: var(--komorebi-lilac-bright) !important;
+    --mention-background: rgba(201, 196, 238, 0.17) !important;
+    --background-mentioned: rgba(185, 228, 212, 0.08) !important;
+    --background-mentioned-hover: rgba(185, 228, 212, 0.13) !important;
+    --message-mentioned-background-default: rgba(185, 228, 212, 0.08) !important;
+    --message-mentioned-background-hover: rgba(185, 228, 212, 0.13) !important;
+    --message-background-hover: rgba(201, 196, 238, 0.045) !important;
+    --message-highlight-background-default: rgba(201, 196, 238, 0.09) !important;
+    --message-highlight-background-hover: rgba(201, 196, 238, 0.13) !important;
+    --message-reacted-background-default: rgba(201, 196, 238, 0.16) !important;
+    --message-reacted-text-default: var(--komorebi-gold-bright) !important;
+    --background-code: var(--komorebi-wood-deep) !important;
+    --spoiler-hidden-background: #5e667a !important;
+    --spoiler-revealed-background: var(--komorebi-panel-raised) !important;
+
+    --text-positive: var(--komorebi-sage) !important;
+    --text-warning: var(--komorebi-gold) !important;
+    --text-danger: var(--komorebi-rose) !important;
+    --text-feedback-positive: var(--komorebi-sage) !important;
+    --text-feedback-warning: var(--komorebi-gold) !important;
+    --text-feedback-critical: var(--komorebi-rose) !important;
+    --text-feedback-info: var(--komorebi-lilac) !important;
+    --icon-feedback-positive: var(--komorebi-sage) !important;
+    --icon-feedback-warning: var(--komorebi-gold) !important;
+    --icon-feedback-critical: var(--komorebi-rose) !important;
+    --icon-feedback-info: var(--komorebi-lilac) !important;
+    --background-feedback-positive: rgba(175, 209, 170, 0.13) !important;
+    --background-feedback-warning: rgba(185, 228, 212, 0.13) !important;
+    --background-feedback-critical: rgba(242, 166, 178, 0.13) !important;
+    --background-feedback-info: rgba(201, 196, 238, 0.13) !important;
+    --background-feedback-notification: var(--komorebi-sakura) !important;
+    --badge-notification-background: var(--komorebi-sakura) !important;
+
+    --scrollbar-thin-thumb: #728e87 !important;
+    --scrollbar-thin-track: transparent !important;
+    --scrollbar-auto-thumb: #728e87 !important;
+    --scrollbar-auto-track: var(--komorebi-wood-deep) !important;
+    --scrollbar-auto-scrollbar-color-thumb: #728e87 !important;
+    --scrollbar-auto-scrollbar-color-track: var(--komorebi-wood-deep) !important;
+
+    /* Keep channel/thread labels in the theme's quiet palette. */
+    --ctp-rainbow-thread-disabled: ;
+}
+
+/*
+ * Discord marks light custom profiles with .theme-light. Let those profiles
+ * keep their native light surfaces and controls, and restore dark foregrounds
+ * after the imported theme. Alpha text follows the profile's gradient color.
+ * This covers popouts, full profiles and profile sidebars, including bot cards.
+ */
+#app-mount :is(
+    .custom-user-profile-theme,
+    .user-profile-popout,
+    .user-profile-modal,
+    .user-profile-sidebar
+).theme-light {
+    color-scheme: light;
+    --text-default: rgba(0, 0, 0, 0.96) !important;
+    --text-normal: #2c313b !important;
+    --text-strong: #141b20 !important;
+    --text-muted: rgba(0, 0, 0, 0.76) !important;
+    --text-subtle: rgba(0, 0, 0, 0.88) !important;
+    --header-primary: #141b20 !important;
+    --header-secondary: rgba(0, 0, 0, 0.76) !important;
+    --text-link: #414554 !important;
+    --text-link-low-saturation: #414554 !important;
+    --text-brand: #3d4d4d !important;
+    --interactive-normal: #3c404d !important;
+    --interactive-hover: #141b20 !important;
+    --interactive-active: #414554 !important;
+    --interactive-muted: rgba(0, 0, 0, 0.56) !important;
+    --interactive-text-default: #2c313b !important;
+    --interactive-text-hover: #141b20 !important;
+    --interactive-text-active: #414554 !important;
+    --interactive-icon-default: #3c404d !important;
+    --interactive-icon-hover: #141b20 !important;
+    --interactive-icon-active: #414554 !important;
+    --icon-default: #3c404d !important;
+    --icon-strong: #141b20 !important;
+    --icon-subtle: rgba(0, 0, 0, 0.76) !important;
+    --icon-muted: rgba(0, 0, 0, 0.76) !important;
+    --control-secondary-background-default: #f5f4fc !important;
+    --control-secondary-background-hover: #efedfa !important;
+    --control-secondary-background-active: #e9e7f8 !important;
+    --control-secondary-border-default: #aca9cd !important;
+    --control-secondary-text-default: #2c313b !important;
+    --control-secondary-text-hover: #2c313b !important;
+    --control-secondary-text-active: #2c313b !important;
+    --button-secondary-background: #f5f4fc !important;
+    --button-secondary-background-hover: #efedfa !important;
+    --button-secondary-background-active: #e9e7f8 !important;
+    --button-secondary-text: #2c313b !important;
+    --input-text-default: #2c313b !important;
+    --input-placeholder-text-default: #4a4e5e !important;
+    --user-profile-overlay-background: rgba(255, 255, 255, 0.24) !important;
+    --user-profile-overlay-background-hover: rgba(255, 255, 255, 0.36) !important;
+}
+
+/* Tinted frame, with faint grain confined to navigation surfaces. */
+#app-mount [class*="guilds_"] {
+    background:
+        linear-gradient(180deg, rgba(159, 190, 197, 0.07), transparent 35%),
+        var(--komorebi-wood-grain),
+        var(--komorebi-wood-deep);
+    border-inline-end: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.22);
+}
+
+#app-mount :is([class*="sidebarList_"], [class*="privateChannels_"]) {
+    background:
+        linear-gradient(90deg, transparent 86%, rgba(12, 16, 19, 0.18)),
+        linear-gradient(165deg, rgba(159, 190, 197, 0.14), transparent 55%),
+        var(--komorebi-wood-grain),
+        var(--komorebi-wood);
+    border-inline-end: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset 1px 0 0 rgba(242, 248, 247, 0.035);
+}
+
+#app-mount [class*="sidebarList_"] [class*="header_"] {
+    border-bottom: 1px solid var(--komorebi-gold-line);
+    background: linear-gradient(180deg, rgba(185, 228, 212, 0.055), transparent);
+    box-shadow: inset 0 1px 0 rgba(242, 248, 247, 0.04), 0 4px 12px rgba(12, 16, 19, 0.13);
+}
+
+#app-mount [class*="panels_"] {
+    background:
+        linear-gradient(160deg, rgba(185, 228, 212, 0.07), transparent 55%),
+        linear-gradient(125deg, var(--komorebi-wood-raised), var(--komorebi-panel));
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 16px;
+    box-shadow: var(--komorebi-shadow);
+}
+
+/* Ambient light sits behind content in its own stacking context. */
+#app-mount [class*="chatContent_"] {
+    position: relative;
+    isolation: isolate;
+    background:
+        linear-gradient(180deg, rgba(201, 196, 238, 0.025), transparent 55%),
+        var(--komorebi-plum);
+}
+
+#app-mount [class*="chatContent_"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 92% 8%, rgba(201, 196, 238, 0.12), transparent 58%),
+        radial-gradient(ellipse at 8% 92%, rgba(185, 228, 212, 0.07), transparent 50%);
+    opacity: 0.65;
+}
+
+#app-mount [class*="membersWrap_"] {
+    background:
+        linear-gradient(155deg, rgba(201, 196, 238, 0.045), transparent 55%),
+        var(--komorebi-panel);
+    border-inline-start: 1px solid var(--komorebi-gold-line);
+    box-shadow: inset 1px 0 0 rgba(242, 248, 247, 0.035);
+}
+
+#app-mount [class*="membersWrap_"] [class*="members_"] {
+    background: transparent;
+}
+
+#app-mount :is([class*="member_"], [class*="interactive_"], [class*="link_"]) {
+    border-radius: var(--komorebi-radius);
+    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+/* Beveled selection, with an accent seam and a softly lit upper edge. */
+#app-mount :is(
+    [class*="modeSelected_"] [class*="link_"],
+    [class*="interactive_"][class*="selected_"]
+) {
+    background:
+        linear-gradient(180deg, rgba(242, 248, 247, 0.035), transparent 65%),
+        linear-gradient(100deg, rgba(185, 228, 212, 0.16), rgba(201, 196, 238, 0.19));
+    box-shadow:
+        inset 2px 0 0 var(--komorebi-gold),
+        inset 0 1px 0 rgba(220, 246, 235, 0.12),
+        inset 0 -1px 0 rgba(12, 16, 19, 0.18),
+        0 4px 12px rgba(12, 16, 19, 0.18);
+    --channels-default: var(--komorebi-gold-bright) !important;
+    --channel-icon: var(--komorebi-gold) !important;
+    --interactive-text-default: var(--komorebi-gold-bright) !important;
+}
+
+/* Rounded lacquer-like composer; the border also signals keyboard focus. */
+#app-mount [class*="channelTextArea_"] {
+    background:
+        linear-gradient(110deg, rgba(159, 190, 197, 0.08), transparent 50%),
+        linear-gradient(180deg, #28333c, #1b252b);
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 18px;
+    box-shadow: var(--komorebi-shadow);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+#app-mount [class*="channelTextArea_"] [class*="scrollableContainer_"] {
+    background: transparent;
+    border-radius: 17px;
+}
+
+#app-mount [class*="channelTextArea_"]:focus-within {
+    border-color: var(--komorebi-gold);
+    box-shadow:
+        inset 0 1px 0 rgba(220, 246, 235, 0.10),
+        0 0 0 2px rgba(201, 196, 238, 0.12),
+        0 0 24px rgba(185, 228, 212, 0.06),
+        0 12px 28px rgba(12, 16, 19, 0.28);
+}
+
+/* Override filled accent buttons that the base theme colors directly. */
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+) {
+    color: var(--komorebi-ink) !important;
+    background: linear-gradient(115deg, #e9f9f3, var(--komorebi-gold-bright) 24%, var(--komorebi-gold) 62%, #cbede0) !important;
+    border-radius: var(--komorebi-radius);
+    box-shadow: inset 0 1px 0 rgba(244, 252, 249, 0.45), inset 0 -2px 0 rgba(78, 97, 95, 0.22), 0 4px 12px rgba(12, 16, 19, 0.24);
+    transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+):hover:not(:disabled):not([aria-disabled="true"]) {
+    background: linear-gradient(135deg, #e7f9f1, var(--komorebi-gold-bright)) !important;
+    box-shadow: inset 0 1px 0 rgba(244, 252, 249, 0.55), inset 0 -2px 0 rgba(78, 97, 95, 0.18), 0 7px 22px rgba(185, 228, 212, 0.18);
+}
+
+#app-mount button:is(
+    [class*="lookFilled_"][class*="colorBrand_"],
+    [class^="button_"][class*=" primary_"],
+    .vc-btn-primary
+):active:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--komorebi-gold) !important;
+    box-shadow: inset 0 2px 4px rgba(27, 37, 43, 0.15);
+}
+
+#app-mount :is(button, a, input, [role="button"], [role="tab"], [role="menuitem"]):focus-visible {
+    outline: 2px solid var(--komorebi-lilac);
+    outline-offset: 2px;
+}
+
+/* Soft secondary details, with the primary accent reserved for emphasis. */
+#app-mount .mention {
+    border-radius: 6px;
+}
+
+#app-mount [class*="mentioned_"]::before {
+    background-color: var(--komorebi-gold);
+}
+
+#app-mount :is([class*="reaction_"], [class*="reactionMe_"]) {
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(242, 248, 247, 0.055), 0 2px 5px rgba(12, 16, 19, 0.12);
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+#app-mount [class*="reactionMe_"] {
+    background: rgba(201, 196, 238, 0.16);
+    border-color: rgba(185, 228, 212, 0.5);
+}
+
+#app-mount [class*="reactionMe_"] [class*="reactionCount_"] {
+    color: var(--komorebi-gold-bright);
+}
+
+#app-mount [class*="blockquoteDivider_"] {
+    background-color: var(--komorebi-gold-deep);
+    border-radius: 4px;
+}
+
+#app-mount [class*="markup_"] pre {
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: var(--komorebi-radius);
+}
+
+#app-mount [class*="menu_"] {
+    background:
+        linear-gradient(145deg, rgba(201, 196, 238, 0.075), transparent 60%),
+        var(--komorebi-panel);
+    border: 1px solid var(--komorebi-gold-line);
+    border-radius: 14px;
+    box-shadow: var(--komorebi-shadow);
+}
+
+/* Hover depth stays within small controls; message text never moves. */
+@media (hover: hover) and (pointer: fine) {
+    #app-mount :is(
+        [class*="sidebarList_"] [class*="link_"],
+        [class*="privateChannels_"] [class*="interactive_"],
+        [class*="member_"]
+    ):hover {
+        background-color: var(--komorebi-hover);
+        box-shadow: inset 0 1px 0 rgba(242, 248, 247, 0.075), 0 4px 12px rgba(12, 16, 19, 0.18);
+    }
+
+    #app-mount [class*="modeSelected_"] [class*="link_"]:hover {
+        box-shadow: inset 2px 0 0 var(--komorebi-gold-bright), var(--komorebi-shadow-hover);
+    }
+
+    #app-mount :is([class*="reaction_"], [class*="reactionMe_"]):hover {
+        border-color: var(--komorebi-gold);
+        box-shadow: inset 0 1px 0 rgba(242, 248, 247, 0.10), 0 4px 12px rgba(12, 16, 19, 0.24);
+    }
+}
+
+/* Only opacity animates on the ambient layer: no blur or layout animation. */
+@keyframes komorebi-ambient {
+    from { opacity: 0.35; }
+    to { opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #app-mount [class*="chatContent_"]::before {
+        animation: komorebi-ambient var(--komorebi-ambient-duration) ease-in-out infinite alternate;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    #app-mount :is(
+        [class*="sidebarList_"] [class*="link_"],
+        [class*="privateChannels_"] [class*="interactive_"],
+        [class*="member_"]
+    ):hover {
+        transform: translateX(2px);
+    }
+
+    #app-mount :is([class*="reaction_"], [class*="reactionMe_"]):hover,
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ):hover:not(:disabled):not([aria-disabled="true"]) {
+        transform: translateY(-2px);
+    }
+
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ):active:not(:disabled):not([aria-disabled="true"]) {
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #app-mount [class*="channelTextArea_"],
+    #app-mount :is(
+        [class*="member_"],
+        [class*="interactive_"],
+        [class*="link_"],
+        [class*="reaction_"],
+        [class*="reactionMe_"]
+    ),
+    #app-mount button:is(
+        [class*="lookFilled_"][class*="colorBrand_"],
+        [class^="button_"][class*=" primary_"],
+        .vc-btn-primary
+    ) {
+        transition: none;
+    }
+}
+
+
+
+/* These rules target the app shell, never settings pages or popout profiles. */
+#app-mount [class*="base_"] > [class*="content_"] {
+    gap: var(--atelier-gap);
+    margin: 0 var(--atelier-gap) var(--atelier-gap);
+    min-width: 0;
+    min-height: 0;
+    overflow: visible !important;
+}
+
+#app-mount [class*="base_"] > [class*="content_"] > [class*="sidebar_"] {
+    position: relative;
+    flex-shrink: 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow: visible !important;
+}
+
+#app-mount [class*="sidebar_"]:has(> [class*="guilds_"]) > [class*="sidebarList_"] {
+    min-width: 0;
+    border: 1px solid var(--atelier-border);
+    border-radius: var(--atelier-card-radius);
+    box-sizing: border-box;
+    box-shadow: var(--atelier-card-shadow);
+    overflow: hidden;
+}
+
+#app-mount [class*="sidebarList_"] [class*="header_"] {
+    min-height: var(--atelier-header-height);
+    box-sizing: border-box;
+    padding-inline: 18px;
+}
+
+#app-mount [class*="sidebarList_"] :is([class*="link_"], [class*="interactive_"]) {
+    min-height: 36px;
+    box-sizing: border-box;
+    margin-block: 2px;
+}
+
+#app-mount [class*="sidebarList_"] [class*="containerDefault_"] {
+    margin-inline: 6px;
+}
+
+#app-mount [class*="sidebar_"]:has(> [class*="guilds_"]) > [class*="panels_"] {
+    box-sizing: border-box;
+    border-color: var(--atelier-border);
+    border-radius: 16px;
+    box-shadow: var(--atelier-card-shadow);
+}
+
+#app-mount [class*="base_"] > [class*="content_"] > :is([class*="page_"], [class*="chat_"]) {
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid var(--atelier-border);
+    border-radius: var(--atelier-card-radius);
+    box-shadow: var(--atelier-card-shadow);
+    overflow: hidden;
+}
+
+#app-mount [class*="chat_"] > :is([class*="title_"], [class*="subtitleContainer_"]) {
+    min-height: var(--atelier-header-height);
+    border-bottom: 1px solid var(--atelier-border);
+    background: var(--komorebi-panel);
+    box-sizing: border-box;
+}
+
+#app-mount [class*="chatContent_"] {
+    min-width: 0;
+}
+
+#app-mount [class*="chatContent_"] [class*="message_"] {
+    padding-block: 6px;
+}
+
+#app-mount [class*="chatContent_"] [class*="markup_"] {
+    max-width: var(--atelier-message-width);
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+#app-mount [class*="chatContent_"] [class*="form_"] {
+    padding: 12px 16px 16px;
+    margin: 0;
+    background: linear-gradient(0deg, var(--komorebi-plum) 75%, transparent);
+}
+
+#app-mount [class*="channelTextArea_"] {
+    margin: 0;
+    border-radius: 16px;
+}
+
+#app-mount [class*="channelTextArea_"] [role="textbox"] {
+    min-height: 24px;
+    padding-block: 12px;
+    line-height: 1.5;
+}
+
+#app-mount [class*="membersWrap_"] {
+    width: var(--atelier-member-width);
+    min-width: var(--atelier-member-width);
+    flex-basis: var(--atelier-member-width);
+    box-sizing: border-box;
+    border-color: var(--atelier-border);
+}
+
+#app-mount [class*="membersWrap_"] [class*="members_"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#app-mount [class*="membersWrap_"] [class*="member_"] {
+    max-width: none;
+    min-height: 42px;
+    margin-inline: 8px;
+}
+
+/* Keep focus rings inside clipped cards. Controls remain visible on touch. */
+#app-mount :is([class*="guilds_"], [class*="sidebarList_"], [class*="membersWrap_"])
+    :is(button, a, [role="treeitem"], [role="button"]):focus-visible {
+    outline: 2px solid var(--komorebi-lilac-bright);
+    outline-offset: -3px;
+}
+
+/* Reuse the existing vertical scroller: wheel and keyboard scrolling stay native.
+ * Each list item is counter-rotated, including its icon, label and badges.
+ * Only the rail moves; messages, dialogs and the native title bar do not rotate.
+ */
+@media (min-width: 1000px) {
+    #app-mount [class*="base_"][data-fullscreen="false"] > [class*="content_"] {
+        margin-top: calc(var(--atelier-dock-height) + var(--atelier-gap));
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] > [class*="content_"] > [class*="sidebar_"] {
+        width: var(--atelier-channel-width) !important;
+        min-width: var(--atelier-channel-width) !important;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="sidebar_"] > [class*="sidebarList_"] {
+        width: var(--atelier-channel-width) !important;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="sidebar_"] > [class*="panels_"] {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="sidebar_"] > [class*="guilds_"] {
+        position: absolute !important;
+        top: calc(-1 * var(--atelier-gap));
+        bottom: auto;
+        left: 0;
+        width: var(--atelier-dock-height) !important;
+        height: calc(100vw - 2 * var(--atelier-gap)) !important;
+        transform-origin: 0 0;
+        rotate: -90deg;
+        border: 1px solid var(--atelier-border);
+        border-radius: 20px;
+        box-sizing: border-box;
+        box-shadow: var(--atelier-card-shadow);
+        z-index: 2;
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="guilds_"] [class*="listItem_"] {
+        rotate: 90deg;
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="guilds_"]
+        :is([class*="itemsContainer_"], [class*="stack_"]) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    #app-mount [class*="base_"][data-fullscreen="false"] [class*="guilds_"] [class*="tree_"] {
+        width: 100%;
+        height: 100%;
+        padding-block: 10px;
+        box-sizing: border-box;
+    }
+
+    /* Update/connection notices are still shown; the dock must not cover them. */
+    #app-mount [class*="base_"][data-fullscreen="false"]:has(> [class*="notice_"]) > [class*="content_"] {
+        margin-top: calc(var(--atelier-dock-height) + var(--atelier-gap));
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1199px) {
+    :root {
+        --atelier-channel-width: 216px;
+        --atelier-member-width: 184px;
+    }
+}
+
+@media (max-width: 999px) {
+    :root {
+        --atelier-gap: 8px;
+        --atelier-card-radius: 16px;
+        --atelier-member-width: 172px;
+    }
+
+    #app-mount [class*="sidebarList_"] {
+        width: 192px;
+        min-width: 192px;
+    }
+
+    #app-mount [class*="base_"] > [class*="content_"] > [class*="sidebar_"] {
+        width: calc(var(--custom-guild-list-width, 72px) + 192px) !important;
+    }
+
+    #app-mount [class*="chatContent_"] [class*="form_"] {
+        padding: 8px;
+    }
+}
+
+/* Native call/video fullscreen keeps Discord's own navigation visibility. */
+#app-mount [class*="base_"][data-fullscreen="true"] > [class*="content_"] {
+    margin: 0;
+    gap: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #app-mount :is([class*="guilds_"], [class*="sidebarList_"], [class*="membersWrap_"])
+        :is(button, a, [role="treeitem"], [class*="link_"], [class*="member_"]) {
+        transition: none !important;
+    }
+}
